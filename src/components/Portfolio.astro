@@ -1,0 +1,325 @@
+---
+const projects = [
+  {
+    name: "Creole Pale",
+    tagline: "Haitian Creole learning platform with production dictionary search.",
+    stack: ["Django", "React", "Javascript", "PostgreSQL", "AWS"],
+    live: "https://www.creolepale.com/",
+    github: "https://github.com/yourname/creole-pale",
+    problem:
+      "Most Haitian Creole resources require exact spelling — a barrier for diaspora learners who grew up hearing the language but never learned to write it. No searchable audio dictionary existed that handled approximate or partial input.",
+    decisions:
+      "Chose PostgreSQL's trigram extension for fuzzy search over a dedicated search service like Elasticsearch — keeping the stack simple for a solo-maintained app while still handling misspelled input. Stored audio in AWS S3 to keep the database lean and let audio delivery scale independently of the app server.",
+    challenges:
+      "Search quality and query performance for misspelled words.",
+    result:
+      "Live in production with a growing dictionary and active usage by learners."
+  },
+  {
+    name: "Savannah Latin Dance",
+    tagline: "Client-facing dance platform with e-commerce and improved performance.",
+    stack: ["React", "WordPress Migration", "Stripe", "Firebase"],
+    live: "https://your-savannah-link.com",
+    github: "https://github.com/yourname/savannah-latin-dance",
+    problem: "",
+    decisions: "",
+    challenges: "",
+    result: "Migrated from WordPress to React with around 60% performance improvement."
+  }
+];
+
+const skills = {
+  Languages: ["Python", "JavaScript", "TypeScript", "SQL"],
+  Frameworks: ["Django", "React", "Astro", "Node.js"],
+  Tools: ["Git", "PostgreSQL", "Docker", "REST APIs"],
+  Cloud: ["AWS"]
+};
+---
+
+<main class="site">
+  <section id="hero" class="hero">
+    <div>
+      <p class="eyebrow">Anthony Noel</p>
+      <h1>Full-Stack Engineer with 4+ years delivering production systems for government and healthcare clients</h1>
+  
+      <div class="cta-row">
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+        <a href="/resume/solutions-engineer-resume.pdf" class="btn btn-outline" download>Download Resume</a>
+      </div>
+    </div>
+    <img src="/headshot.jpg" alt="Anthony Noel headshot" />
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <p>I'm a full-stack engineer with 4+ years building and delivering production software at scale. At Dimagi, I architected healthcare applications for state government agencies — including the Colorado Behavorial Health Administration and New Jersey Department of Health — serving millions of residents across critical public health programs. I also built an internal QA automation tool that compressed testing workflows from 2–3 days to under 4 hours. </p>
+
+    <p>Outside of that, I'm the founder and sole engineer behind Creole Pale, a Haitian Creole audio dictionary and language learning platform. I designed and shipped the full stack from scratch — Django REST API, PostgreSQL, AWS S3, and a custom fuzzy search engine — live in production. It's a project close to my roots, built to make the language more accessible to learners and the diaspora community.</p>
+
+    <p>I enjoy working across different software systems and solving complex technical problems—whether that’s integrating government data platforms or architecting a search feature from the database layer up. I'm currently pursuing a B.S. in Computer Science at Western Governors University and exploring remote backend engineering and technical solutions roles. </p>
+    <p>
+      <a href="https://www.linkedin.com/in/anthonyjnoel/">LinkedIn</a> ·
+      <a href="https://github.com/AntNoel">GitHub</a>
+    </p>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    {projects.map((p, i) => (
+      <article class="card">
+        <h3>{p.name}</h3>
+        <p>{p.tagline}</p>
+        <div class="badges">{p.stack.map(s => <span>{s}</span>)}</div>
+        <p><a href={p.live}>Live Demo</a> · <a href={p.github}>GitHub</a></p>
+
+        {i === 0 && (
+          <details>
+            <summary>View Case Study</summary>
+            <p><strong>Problem:</strong> {p.problem}</p>
+            <p><strong>Technical Decisions:</strong> {p.decisions}</p>
+            <p><strong>Key Challenges:</strong> {p.challenges}</p>
+            <p><strong>Result:</strong> {p.result}</p>
+          </details>
+        )}
+      </article>
+    ))}
+  </section>
+
+  <section id="enterprise">
+    <h2>Enterprise Work</h2>
+    <h3>Dimagi — Technical Solutions (2021–2025)</h3>
+    <p>Delivered solutions on CommCare, a low-code platform used by state agencies and health organizations.</p>
+    <p>Owned requirements gathering, solution architecture, systems integration, production support, and client delivery.</p>
+    <p>Led complex integration and data-flow implementations across external systems while balancing reliability, auditability, and changing policy requirements.</p>
+    <p>Contributed to outcomes serving millions of residents; built a QA process improvement that reduced testing cycles from 2–3 days to roughly 4 hours.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    {Object.entries(skills).map(([group, items]) => (
+      <p><strong>{group}:</strong> {items.join(", ")}</p>
+    ))}
+  </section>
+
+  <section id="resume">
+    <h2>Resume</h2>
+    <a href="/resume/implementation-engineer-resume.pdf" class="btn btn-primary" download>Download Resume</a>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p><a href="mailto:antjnoel@gmail.com">antjnoel@gmail.com</a></p>
+    <p><a href="https://www.linkedin.com/in/your-linkedin">LinkedIn</a></p>
+    <p><a href="https://github.com/your-github">GitHub</a></p>
+  </section>
+</main>
+
+<style>
+  .site {
+    padding: clamp(1.25rem, 2vw, 2rem) 0 5rem;
+  }
+
+  .site section + section {
+    margin-top: clamp(2.25rem, 5vw, 4.5rem);
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1.25fr 0.9fr;
+    gap: clamp(1.25rem, 4vw, 3.25rem);
+    align-items: center;
+    padding-top: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: fit-content;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--card) 80%, white);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  h1 {
+    margin-top: 0.85rem;
+    font-size: clamp(1.9rem, 4.6vw, 3.6rem);
+    max-width: 20ch;
+  }
+
+  .sub {
+    margin-top: 1rem;
+    max-width: 58ch;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+  }
+
+  .cta-row {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .resume-links {
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .resume-links a {
+    color: var(--ink-muted);
+    text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    text-underline-offset: 0.2rem;
+  }
+
+  .hero img {
+    width: min(100%, 420px);
+    justify-self: end;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: calc(var(--radius) + 8px);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    background: #ddd;
+  }
+
+  h2 {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    margin-bottom: 0.9rem;
+  }
+
+  h3 {
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  }
+
+  #about p,
+  #enterprise p,
+  #contact p {
+    max-width: 72ch;
+  }
+
+  #about p + p,
+  #enterprise p + p,
+  #contact p + p {
+    margin-top: 0.7rem;
+  }
+
+  #projects {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1rem 1rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: linear-gradient(145deg, var(--card), #fff);
+    box-shadow: 0 4px 18px rgba(17, 18, 24, 0.05);
+  }
+
+  .card p {
+    margin-top: 0.55rem;
+  }
+
+  .badges {
+    margin-top: 0.7rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .badges span {
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+    background: color-mix(in srgb, var(--accent) 10%, white);
+    color: #0b5f59;
+    border-radius: 999px;
+    padding: 0.22rem 0.55rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .card a,
+  #about a,
+  #contact a,
+  #enterprise a {
+    color: #0b5f59;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.2rem;
+  }
+
+  details {
+    margin-top: 0.75rem;
+    border-top: 1px dashed var(--line);
+    padding-top: 0.7rem;
+  }
+
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  #skills p {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--card) 85%, white);
+  }
+
+  #skills p + p {
+    margin-top: 0.55rem;
+  }
+
+  #resume {
+    text-align: left;
+  }
+
+  #contact {
+    padding-bottom: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+
+    .hero img {
+      justify-self: start;
+      width: min(72vw, 360px);
+      margin-top: 0.4rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero,
+    .card {
+      animation: rise 550ms ease both;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: 80ms;
+    }
+
+    .card:nth-child(4) {
+      animation-delay: 140ms;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+</style>

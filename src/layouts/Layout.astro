@@ -1,23 +1,144 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Anthony Noel | Full-Stack Engineer",
+  description =
+    "Full-Stack Engineer delivering production systems for government and healthcare clients."
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0e1116" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+  :root {
+    --bg: #f4efe6;
+    --bg-soft: #fff9f0;
+    --ink: #111218;
+    --ink-muted: #474c58;
+    --line: #d8cfbf;
+    --accent: #0f766e;
+    --accent-2: #b45309;
+    --card: #fffdf8;
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(17, 18, 24, 0.08);
+    --content-max: 1120px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--bg);
+  }
+
+  body {
+    color: var(--ink);
+    font-family: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+    line-height: 1.55;
+    background:
+      radial-gradient(60rem 30rem at 90% -10%, rgba(180, 83, 9, 0.14), transparent 60%),
+      radial-gradient(50rem 28rem at -10% 10%, rgba(15, 118, 110, 0.14), transparent 55%),
+      linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 45%, #efe7d7 100%);
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  p {
+    margin: 0;
+    color: var(--ink-muted);
+  }
+
+  a {
+    color: inherit;
+  }
+
+  section {
+    width: min(var(--content-max), 92vw);
+    margin-inline: auto;
+    scroll-margin-top: 72px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    padding: 0.72rem 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: #fff;
+    box-shadow: var(--shadow);
+  }
+
+  .btn-outline {
+    border-color: var(--ink);
+    background: transparent;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      line-height: 1.5;
+    }
+
+    section {
+      width: min(95vw, var(--content-max));
+    }
+  }
 </style>
