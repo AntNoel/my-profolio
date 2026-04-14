@@ -3,34 +3,34 @@ const projects = [
   {
     name: "Creole Pale",
     tagline: "Haitian Creole learning platform with production dictionary search.",
-    stack: ["Django", "React", "Javascript", "PostgreSQL", "AWS"],
+    stack: ["Django", "Django REST", "React", "Javascript", "PostgreSQL", "AWS"],
     live: "https://www.creolepale.com/",
-    github: "https://github.com/yourname/creole-pale",
+    // github: "https://github.com/yourname/creole-pale",
     problem:
-      "Most Haitian Creole resources require exact spelling — a barrier for diaspora learners who grew up hearing the language but never learned to write it. No searchable audio dictionary existed that handled approximate or partial input.",
+      "Most Haitian Creole resources lack audio and ignore the language's many valid spelling variations — a barrier for diaspora learners who grew up hearing it but never learned to write it. No searchable audio dictionary existed that handled approximate or partial input.",
     decisions:
-      "Chose PostgreSQL's trigram extension for fuzzy search over a dedicated search service like Elasticsearch — keeping the stack simple for a solo-maintained app while still handling misspelled input. Stored audio in AWS S3 to keep the database lean and let audio delivery scale independently of the app server.",
+      "Implemented a two-stage search pipeline: accent-insensitive exact lookup first, falling back to PostgreSQL trigram fuzzy matching (pg_trgm) for misspelled or partial input. Stored audio files in AWS S3 to decouple media delivery from app compute — keeping the database lean and audio playback fast. This avoided the overhead of Elasticsearch while still delivering typo-tolerant results for a solo-maintained app.",
     challenges:
-      "Search quality and query performance for misspelled words.",
+      "Tuning the trigram similarity threshold so valid spelling variations matched without surfacing irrelevant results — too strict and legitimate alternate spellings got dropped, too loose and noise flooded the results.",
     result:
-      "Live in production with a growing dictionary and active usage by learners."
+      "Live in production with a growing dictionary (100+ entries) and 300+ monthly searches from diaspora learners."
   },
   {
     name: "Savannah Latin Dance",
-    tagline: "Client-facing dance platform with e-commerce and improved performance.",
-    stack: ["React", "WordPress Migration", "Stripe", "Firebase"],
-    live: "https://your-savannah-link.com",
-    github: "https://github.com/yourname/savannah-latin-dance",
-    problem: "",
-    decisions: "",
-    challenges: "",
-    result: "Migrated from WordPress to React with around 60% performance improvement."
+    tagline: "Class registration and payment platform with Stripe integration and role-based access control.",
+    stack: ["React", "Stripe", "Firebase"],
+    live: "https://sld-2021.web.app/ ",
+    github: "https://github.com/AntNoel/sld-login",
+    problem: "A local Latin dance studio needed a way to manage class registration, collect payments, and control access — without paying for an off-the-shelf platform that didn't fit their workflow.",
+    decisions: "Built role-based authentication to separate student and instructor views. Integrated Stripe for class payments with webhook handling to keep enrollment status in sync with payment events. ",
+    challenges: "Ensuring Stripe webhook events were processed reliably and only once — handling duplicate event delivery, out-of-order events, and failed processing without double-enrolling students or missing a confirmed payment.",
+    result: "Live in production, handling class registration, payments, and role-based access for a real dance studio — built to replace a manual enrollment process."
   }
 ];
 
 const skills = {
-  Languages: ["Python", "JavaScript", "TypeScript", "SQL"],
-  Frameworks: ["Django", "React", "Astro", "Node.js"],
+  Languages: ["Python", "JavaScript", "SQL"],
+  Frameworks: ["Django", "React"],
   Tools: ["Git", "PostgreSQL", "Docker", "REST APIs"],
   Cloud: ["AWS"]
 };
@@ -40,7 +40,7 @@ const skills = {
   <section id="hero" class="hero">
     <div>
       <p class="eyebrow">Anthony Noel</p>
-      <h1>Full-Stack Engineer with 4+ years delivering production systems for government and healthcare clients</h1>
+      <h1>Technical Solutions Engineer & Full-Stack Developer with 4+ years delivering production systems for government and healthcare clients</h1>
   
       <div class="cta-row">
         <a href="#projects" class="btn btn-primary">View My Work</a>
@@ -52,11 +52,11 @@ const skills = {
 
   <section id="about">
     <h2>About</h2>
-    <p>I'm a full-stack engineer with 4+ years building and delivering production software at scale. At Dimagi, I architected healthcare applications for state government agencies — including the Colorado Behavorial Health Administration and New Jersey Department of Health — serving millions of residents across critical public health programs. I also built an internal QA automation tool that compressed testing workflows from 2–3 days to under 4 hours. </p>
+    <p>I'm a full-stack engineer with 4+ years building and delivering production software at scale. At Dimagi, I architected healthcare applications for state government agencies — including the Colorado Behavioral Health Administration and New Jersey Department of Health — serving millions of residents across critical public health programs. I also built an internal QA automation tool that compressed testing workflows from 2–3 days to under 4 hours. </p>
 
     <p>Outside of that, I'm the founder and sole engineer behind Creole Pale, a Haitian Creole audio dictionary and language learning platform. I designed and shipped the full stack from scratch — Django REST API, PostgreSQL, AWS S3, and a custom fuzzy search engine — live in production. It's a project close to my roots, built to make the language more accessible to learners and the diaspora community.</p>
 
-    <p>I enjoy working across different software systems and solving complex technical problems—whether that’s integrating government data platforms or architecting a search feature from the database layer up. I'm currently pursuing a B.S. in Computer Science at Western Governors University and exploring remote backend engineering and technical solutions roles. </p>
+    <p>I'm currently pursuing a B.S. in Computer Science at Western Governors University and open to remote backend and technical solutions engineering roles. </p>
     <p>
       <a href="https://www.linkedin.com/in/anthonyjnoel/">LinkedIn</a> ·
       <a href="https://github.com/AntNoel">GitHub</a>
@@ -65,14 +65,14 @@ const skills = {
 
   <section id="projects">
     <h2>Projects</h2>
-    {projects.map((p, i) => (
+    {projects.map((p) => (
       <article class="card">
         <h3>{p.name}</h3>
         <p>{p.tagline}</p>
         <div class="badges">{p.stack.map(s => <span>{s}</span>)}</div>
         <p><a href={p.live}>Live Demo</a> · <a href={p.github}>GitHub</a></p>
 
-        {i === 0 && (
+        {p.problem && p.decisions && p.challenges && p.result && (
           <details>
             <summary>View Case Study</summary>
             <p><strong>Problem:</strong> {p.problem}</p>
@@ -87,11 +87,13 @@ const skills = {
 
   <section id="enterprise">
     <h2>Enterprise Work</h2>
-    <h3>Dimagi — Technical Solutions (2021–2025)</h3>
-    <p>Delivered solutions on CommCare, a low-code platform used by state agencies and health organizations.</p>
-    <p>Owned requirements gathering, solution architecture, systems integration, production support, and client delivery.</p>
-    <p>Led complex integration and data-flow implementations across external systems while balancing reliability, auditability, and changing policy requirements.</p>
-    <p>Contributed to outcomes serving millions of residents; built a QA process improvement that reduced testing cycles from 2–3 days to roughly 4 hours.</p>
+    <h3>Dimagi — Senior Technical Project Analyst - Technical Solutions (2021–2025)</h3>
+    <p></p>
+    <p>Delivered production healthcare applications on CommCare for Colorado BHA, New Jersey DOH, Alameda County, and Pima County — serving millions of residents and thousands of daily active users. </p>
+    <p>Designed integrations across 10+ CommCare applications, external databases, analytics tools, and third-party systems. Built a QA automation tool that compressed testing workflows from 2–3 days to under 4 hours.</p>
+    <p><a href="https://sites.dimagi.com/hubfs/Case%20Studies/Case%20Study%20-%20Colorado%20Behavioral%20Health%20with%20CommCare.pdf?trk=public_post_comment-text">Colorado BHA Case Study</a> </p>
+    <p><a href=" https://dimagi.com/healthcare-in-pima-county-arizona/">Pima County Case Study</a> </p>
+
   </section>
 
   <section id="skills">
@@ -103,14 +105,14 @@ const skills = {
 
   <section id="resume">
     <h2>Resume</h2>
-    <a href="/resume/implementation-engineer-resume.pdf" class="btn btn-primary" download>Download Resume</a>
+    <a href="/resume/solutions-engineer-resume.pdf" class="btn btn-primary" download>Download Resume</a>
   </section>
 
   <section id="contact">
     <h2>Contact</h2>
     <p><a href="mailto:antjnoel@gmail.com">antjnoel@gmail.com</a></p>
-    <p><a href="https://www.linkedin.com/in/your-linkedin">LinkedIn</a></p>
-    <p><a href="https://github.com/your-github">GitHub</a></p>
+    <p><a href="https://www.linkedin.com/in/anthonyjnoel/">LinkedIn</a></p>
+    <p><a href="https://github.com/AntNoel">GitHub</a></p>
   </section>
 </main>
 
